@@ -1,0 +1,82 @@
+name: devbox_wordpress
+networks:
+  db:
+    name: devbox_wordpress_db
+  default:
+    external: true
+    name: devbox_proxy_default
+services:
+  db:
+    command:
+    - --default_authentication_plugin=mysql_native_password
+    - --character-set-server=utf8mb4
+    - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_PASSWORD: OfGhacRytrapDichnashIrud
+      MYSQL_ROOT_PASSWORD: Kiefvomkureutgiwimspyithux
+      MYSQL_USER: wordpress
+    hostname: db
+    image: mysql:latest
+    labels:
+      paasify.path: /srv/containers/example-wordpress/wordpress
+    networks:
+      db:
+    restart: unless-stopped
+    volumes:
+    - bind:
+        create_host_path: true
+      source: /srv/containers/example-wordpress/wordpress/db_data
+      target: /var/lib/mysql
+      type: bind
+    - bind:
+        create_host_path: true
+      source: /srv/containers/example-wordpress/wordpress/db_conf
+      target: /docker-entrypoint-initdb.d
+      type: bind
+  wp:
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_PASSWORD: OfGhacRytrapDichnashIrud
+      WORDPRESS_DB_USER: wordpress
+    hostname: wordpress
+    image: wordpress:latest
+    labels:
+      homepage.description: wordpress.localhost instance
+      homepage.group: Docker
+      homepage.href: http://wordpress.localhost
+      homepage.icon: wordpress
+      homepage.name: wordpress
+      paasify.fqdn: wordpress.localhost
+      paasify.path: /srv/containers/example-wordpress/wordpress
+      paasify.principal: true
+      traefik.docker.network: devbox_proxy_default
+      traefik.enable: 'true'
+      traefik.group: devbox_proxy_default
+      traefik.http.routers.devbox_wordpress.entrypoints: web
+      traefik.http.routers.devbox_wordpress.rule: Host(`wordpress.localhost`)
+      traefik.http.routers.devbox_wordpress.service: devbox_wordpress
+      traefik.http.routers.devbox_wordpress.tls: 'false'
+      traefik.http.services.devbox_wordpress.loadbalancer.server.port: '80'
+    links:
+    - db
+    networks:
+      db:
+      default: {}
+    restart: unless-stopped
+    volumes:
+    - bind:
+        create_host_path: true
+      source: /srv/containers/example-wordpress/wordpress/conf/php.conf.ini
+      target: /usr/local/etc/php/conf.d/conf.ini
+      type: bind
+    - bind:
+        create_host_path: true
+      source: /srv/containers/example-wordpress/wordpress/data
+      target: /var/www/html
+      type: bind
+version: '3.8'

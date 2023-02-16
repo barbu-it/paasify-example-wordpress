@@ -1,0 +1,30 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/en/configs/bookmarks
+
+- Paasify:
+    - Documentation:
+        - abbr: DOC
+          href: https://barbu-it.github.io/paasify/
+    - News:
+        - abbr: NW
+          href: https://github.com/orgs/barbu-it/discussions
+    - Github:
+        - abbr: GH
+          href: https://github.com/barbu-it/paasify
+
+- Community:
+    - Gitter:
+        - abbr: GT
+          href: https://app.gitter.im/#/room/#barbu-it_paasify:gitter.im
+    - Reddit:
+        - abbr: RE
+          href: https://www.reddit.com/r/selfhosted/
+
+- Collections:
+    - Paasify:
+        - href: https://barbu-it.github.io/paasify/plugins_apidoc/
+    - Community:
+        - href: https://github.com/barbu-it/paasify-collection-community
+    - Infra:
+        - href: https://github.com/barbu-it/paasify-collection-infra

@@ -1,0 +1,84 @@
+name: devbox_proxy
+networks:
+  default:
+    name: devbox_proxy_default
+services:
+  traefik:
+    environment:
+      TRAEFIK_ACCESSLOG: 'false'
+      TRAEFIK_ACCESSLOG_FILEPATH: /logs/access.log
+      TRAEFIK_API: 'true'
+      TRAEFIK_API_DASHBOARD: 'true'
+      TRAEFIK_API_DEBUG: 'false'
+      TRAEFIK_API_INSECURE: 'true'
+      TRAEFIK_ENTRYPOINTS_web: 'True'
+      TRAEFIK_ENTRYPOINTS_web_ADDRESS: :80
+      TRAEFIK_ENTRYPOINTS_websecure_ADDRESS: :443
+      TRAEFIK_LOG_LEVEL: INFO
+      TRAEFIK_PROVIDERS_DOCKER: 'true'
+      TRAEFIK_PROVIDERS_DOCKER_CONSTRAINTS: LabelRegex(`traefik.group`, `(^|,)devbox_proxy_default(,|$$)`)
+      TRAEFIK_PROVIDERS_DOCKER_ENDPOINT: unix:///var/run/docker.sock
+      TRAEFIK_PROVIDERS_DOCKER_EXPOSEDBYDEFAULT: 'false'
+      TRAEFIK_PROVIDERS_DOCKER_NETWORK: devbox_proxy_default
+      TRAEFIK_PROVIDERS_DOCKER_SWARMMODE: 'false'
+      TRAEFIK_PROVIDERS_DOCKER_WATCH: 'true'
+      TRAEFIK_PROVIDERS_FILE_DIRECTORY: /etc/traefik
+    hostname: proxy
+    image: traefik:v2.9
+    labels:
+      homepage.description: proxy.localhost instance
+      homepage.group: Docker
+      homepage.href: http://proxy.localhost
+      homepage.icon: traefik
+      homepage.name: proxy
+      paasify.fqdn: proxy.localhost
+      paasify.path: /srv/containers/example-wordpress/proxy
+      paasify.principal: true
+      traefik.docker.network: devbox_proxy_default
+      traefik.enable: 'true'
+      traefik.group: devbox_proxy_default
+      traefik.http.routers.devbox_proxy.entrypoints: web
+      traefik.http.routers.devbox_proxy.rule: Host(`proxy.localhost`)
+      traefik.http.routers.devbox_proxy.service: devbox_proxy
+      traefik.http.routers.devbox_proxy.tls: 'false'
+      traefik.http.services.devbox_proxy.loadbalancer.server.port: '8080'
+    networks:
+      default:
+        aliases:
+        - traefik
+        - traefik.proxy
+    ports:
+    - host_ip: 127.0.0.1
+      mode: ingress
+      protocol: tcp
+      published: '80'
+      target: 80
+    - host_ip: 127.0.0.1
+      mode: ingress
+      protocol: tcp
+      published: '8080'
+      target: 8080
+    restart: always
+    volumes:
+    - bind:
+        create_host_path: true
+      source: /srv/containers/example-wordpress/proxy/data
+      target: /data
+      type: bind
+    - bind:
+        create_host_path: true
+      source: /srv/containers/example-wordpress/proxy/conf
+      target: /etc/traefik
+      type: bind
+    - bind:
+        create_host_path: true
+      source: /srv/containers/example-wordpress/proxy/logs
+      target: /logs
+      type: bind
+    - bind:
+        create_host_path: true
+      read_only: true
+      source: /var/run/docker.sock
+      target: /var/run/docker.sock
+      type: bind
+version: '3.8'

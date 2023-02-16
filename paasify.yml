@@ -1,0 +1,41 @@
+# My new project
+
+sources:
+  - name: community
+    remote: https://github.com/barbu-it/paasify-collection-community
+  - name: infra
+    remote: https://github.com/barbu-it/paasify-collection-infra
+
+config:
+  namespace: devbox
+  extra_vars:
+    - secrets.yml
+  vars:
+    # We expose to 127.0.0.1, under the *.locahost domain
+    app_expose_ip: 127.0.0.1
+    app_domain: localhost
+
+    # Other domain examples
+    #app_domain: mydomain.org
+    #app_domain: localtest.me
+    #app_domain: ${app_expose_ip}.nip.io
+
+    # Default traefik network
+    traefik_net_name: devbox_proxy_default
+
+  tags_prefix:
+    - homepage
+    - traefik-svc
+
+stacks:
+  - app: proxy
+    vars:
+      traefik_net_external: False
+    tags:
+      - expose_http
+      - expose_admin
+  - app: home
+  - app: community:wordpress
+    #tags:
+    #  - phpmyadmin
+

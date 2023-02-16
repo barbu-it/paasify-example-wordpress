@@ -1,0 +1,47 @@
+name: devbox_home
+networks:
+  default:
+    external: true
+    name: devbox_proxy_default
+services:
+  homepage:
+    hostname: home
+    image: ghcr.io/benphelps/homepage:latest
+    labels:
+      homepage.description: A modern, secure, highly customizable application dashboard
+      homepage.group: Docker
+      homepage.href: http://home.localhost
+      homepage.icon: homepage
+      homepage.name: home
+      paasify.fqdn: home.localhost
+      paasify.path: /srv/containers/example-wordpress/home
+      paasify.principal: true
+      traefik.docker.network: devbox_proxy_default
+      traefik.enable: 'true'
+      traefik.group: devbox_proxy_default
+      traefik.http.routers.devbox_home.entrypoints: web
+      traefik.http.routers.devbox_home.rule: Host(`home.localhost`)
+      traefik.http.routers.devbox_home.service: devbox_home
+      traefik.http.routers.devbox_home.tls: 'false'
+      traefik.http.services.devbox_home.loadbalancer.server.port: '3000'
+    networks:
+      default: {}
+    restart: unless-stopped
+    volumes:
+    - bind:
+        create_host_path: true
+      source: /srv/containers/example-wordpress/home/conf
+      target: /app/config
+      type: bind
+    - bind:
+        create_host_path: true
+      source: /home/jez/volumes/data/prj/mrjk/POC/paasify_transiant/paasify/assets/collections/paasify/home/icons
+      target: /app/public/icons
+      type: bind
+    - bind:
+        create_host_path: true
+      read_only: true
+      source: /var/run/docker.sock
+      target: /var/run/docker.sock
+      type: bind
+version: '3.8'
