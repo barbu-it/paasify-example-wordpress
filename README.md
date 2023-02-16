@@ -38,7 +38,7 @@ paasify --version
 
 As this project contains a database, an admin and user database password must be provided. The passwords can be edited in the `secrets.yml` file:
 ```
-nano secrets.yml
+$EDITOR secrets.yml
 ```
 
 Your project is now configured, let's deploy it!
@@ -55,7 +55,12 @@ Deploy your project:
 paasify apply
 ```
 
-By default, you can access to your dashboard on the domain [http://home.localhost/]()
+You can check your stacks are properly running with:
+```
+paasify ps
+``
+
+By default, you can access to your dashboard on the http url: [http://home.localhost/]()
 
 ### General workflow
 
