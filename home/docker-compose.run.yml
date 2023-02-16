@@ -1,8 +1,8 @@
-name: devbox_home
+name: demo-wp_home
 networks:
   default:
     external: true
-    name: devbox_proxy_default
+    name: demo-wp_proxy_default
 services:
   homepage:
     hostname: home
@@ -16,14 +16,14 @@ services:
       paasify.fqdn: home.localhost
       paasify.path: /srv/containers/example-wordpress/home
       paasify.principal: true
-      traefik.docker.network: devbox_proxy_default
+      traefik.docker.network: demo-wp_proxy_default
       traefik.enable: 'true'
-      traefik.group: devbox_proxy_default
-      traefik.http.routers.devbox_home.entrypoints: web
-      traefik.http.routers.devbox_home.rule: Host(`home.localhost`)
-      traefik.http.routers.devbox_home.service: devbox_home
-      traefik.http.routers.devbox_home.tls: 'false'
-      traefik.http.services.devbox_home.loadbalancer.server.port: '3000'
+      traefik.group: demo-wp_proxy_default
+      traefik.http.routers.demo-wp_home.entrypoints: web
+      traefik.http.routers.demo-wp_home.rule: Host(`home.localhost`)
+      traefik.http.routers.demo-wp_home.service: demo-wp_home
+      traefik.http.routers.demo-wp_home.tls: 'false'
+      traefik.http.services.demo-wp_home.loadbalancer.server.port: '3000'
     networks:
       default: {}
     restart: unless-stopped

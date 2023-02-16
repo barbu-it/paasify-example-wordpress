@@ -1,7 +1,7 @@
-name: devbox_proxy
+name: demo-wp_proxy
 networks:
   default:
-    name: devbox_proxy_default
+    name: demo-wp_proxy_default
 services:
   traefik:
     environment:
@@ -16,10 +16,10 @@ services:
       TRAEFIK_ENTRYPOINTS_websecure_ADDRESS: :443
       TRAEFIK_LOG_LEVEL: INFO
       TRAEFIK_PROVIDERS_DOCKER: 'true'
-      TRAEFIK_PROVIDERS_DOCKER_CONSTRAINTS: LabelRegex(`traefik.group`, `(^|,)devbox_proxy_default(,|$$)`)
+      TRAEFIK_PROVIDERS_DOCKER_CONSTRAINTS: LabelRegex(`traefik.group`, `(^|,)demo-wp_proxy_default(,|$$)`)
       TRAEFIK_PROVIDERS_DOCKER_ENDPOINT: unix:///var/run/docker.sock
       TRAEFIK_PROVIDERS_DOCKER_EXPOSEDBYDEFAULT: 'false'
-      TRAEFIK_PROVIDERS_DOCKER_NETWORK: devbox_proxy_default
+      TRAEFIK_PROVIDERS_DOCKER_NETWORK: demo-wp_proxy_default
       TRAEFIK_PROVIDERS_DOCKER_SWARMMODE: 'false'
       TRAEFIK_PROVIDERS_DOCKER_WATCH: 'true'
       TRAEFIK_PROVIDERS_FILE_DIRECTORY: /etc/traefik
@@ -34,14 +34,14 @@ services:
       paasify.fqdn: proxy.localhost
       paasify.path: /srv/containers/example-wordpress/proxy
       paasify.principal: true
-      traefik.docker.network: devbox_proxy_default
+      traefik.docker.network: demo-wp_proxy_default
       traefik.enable: 'true'
-      traefik.group: devbox_proxy_default
-      traefik.http.routers.devbox_proxy.entrypoints: web
-      traefik.http.routers.devbox_proxy.rule: Host(`proxy.localhost`)
-      traefik.http.routers.devbox_proxy.service: devbox_proxy
-      traefik.http.routers.devbox_proxy.tls: 'false'
-      traefik.http.services.devbox_proxy.loadbalancer.server.port: '8080'
+      traefik.group: demo-wp_proxy_default
+      traefik.http.routers.demo-wp_proxy.entrypoints: web
+      traefik.http.routers.demo-wp_proxy.rule: Host(`proxy.localhost`)
+      traefik.http.routers.demo-wp_proxy.service: demo-wp_proxy
+      traefik.http.routers.demo-wp_proxy.tls: 'false'
+      traefik.http.services.demo-wp_proxy.loadbalancer.server.port: '8080'
     networks:
       default:
         aliases:

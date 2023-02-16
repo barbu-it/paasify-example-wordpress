@@ -1,10 +1,10 @@
-name: devbox_wordpress
+name: demo-wp_wordpress
 networks:
   db:
-    name: devbox_wordpress_db
+    name: demo-wp_wordpress_db
   default:
     external: true
-    name: devbox_proxy_default
+    name: demo-wp_proxy_default
 services:
   db:
     command:
@@ -54,14 +54,14 @@ services:
       paasify.fqdn: wordpress.localhost
       paasify.path: /srv/containers/example-wordpress/wordpress
       paasify.principal: true
-      traefik.docker.network: devbox_proxy_default
+      traefik.docker.network: demo-wp_proxy_default
       traefik.enable: 'true'
-      traefik.group: devbox_proxy_default
-      traefik.http.routers.devbox_wordpress.entrypoints: web
-      traefik.http.routers.devbox_wordpress.rule: Host(`wordpress.localhost`)
-      traefik.http.routers.devbox_wordpress.service: devbox_wordpress
-      traefik.http.routers.devbox_wordpress.tls: 'false'
-      traefik.http.services.devbox_wordpress.loadbalancer.server.port: '80'
+      traefik.group: demo-wp_proxy_default
+      traefik.http.routers.demo-wp_wordpress.entrypoints: web
+      traefik.http.routers.demo-wp_wordpress.rule: Host(`wordpress.localhost`)
+      traefik.http.routers.demo-wp_wordpress.service: demo-wp_wordpress
+      traefik.http.routers.demo-wp_wordpress.tls: 'false'
+      traefik.http.services.demo-wp_wordpress.loadbalancer.server.port: '80'
     links:
     - db
     networks:

@@ -7,7 +7,7 @@ sources:
     remote: https://github.com/barbu-it/paasify-collection-infra
 
 config:
-  namespace: devbox
+  namespace: demo-wp
   extra_vars:
     - secrets.yml
   vars:
@@ -21,7 +21,7 @@ config:
     #app_domain: ${app_expose_ip}.nip.io
 
     # Default traefik network
-    traefik_net_name: devbox_proxy_default
+    traefik_net_name: ${_prj_ns}_proxy_default
 
   tags_prefix:
     - homepage
