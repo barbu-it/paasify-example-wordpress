@@ -67,7 +67,7 @@ You can check your stacks are properly running with:
 paasify ps
 ```
 
-By default, you can access to your dashboard on the http url: [http://home.localhost/]()
+By default, you can access to your dashboard on the http url: [http://home.localhost/](http://home.localhost/)
 
 ### General workflow
 
