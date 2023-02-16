@@ -1,3 +1,7 @@
+<p align='center'>
+<img src="https://github.com/barbu-it/paasify/raw/develop/logo/paasify_project.svg" alt="Paasify Project">
+</p>
+
 # Paasify Project Wordpress
 
 This paasify project deploys a wordpress instance. This project includes:
@@ -20,21 +24,21 @@ This quick guide should help you to deploy this stack locally.
 
 To deploy this project, your must first checkout the project with git and go into the directory:
 ```
-$ git clone https://github.com/barbu-it/paasify-prj-wordpress.git
-$ cd paasify-prj-wordpress
+git clone https://github.com/barbu-it/paasify-example-wordpress.git wordpress
+cd wordpress
 ```
 
 If you don't have a working `paasify` instance or if you want to install the project paasify version, you can install a dedicated instance into a python virtualenv:
 ```
-$ python3 -m venv .venv
-$ . .venv/bin/activate
-$ pip install -r requirements.txt
-$ paasify --version
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+paasify --version
 ```
 
 As this project contains a database, an admin and user database password must be provided. The passwords can be edited in the `secrets.yml` file:
 ```
-$ nano secrets.yml
+nano secrets.yml
 ```
 
 Your project is now configured, let's deploy it!
@@ -43,18 +47,15 @@ Your project is now configured, let's deploy it!
 
 Install project dependencies
 ```
-$ paasify src install
+paasify src install
 ```
 
 Deploy your project:
 ```
-$ paasify apply
+paasify apply
 ```
 
-By default, you can access to your dashboard:
-```
-http://home.localhost/
-```
+By default, you can access to your dashboard on the domain [http://home.localhost/]()
 
 ### General workflow
 
